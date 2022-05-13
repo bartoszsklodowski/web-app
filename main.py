@@ -72,7 +72,7 @@ def task_4(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return events
 
 
-@app.get("/event/{date}")
+@app.get("/events/{date}")
 def task_5(date: str, db: Session = Depends(get_db)):
     events = crud.get_event_by_date(db, event_date=date)
     return list(events)
