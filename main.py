@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import FastAPI, Response, status, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -19,6 +21,11 @@ def get_db():
     finally:
         db.close()
 
+def validate(date_text):
+    try:
+        datetime.datetime.strptime(date_text, '%Y-%m-%d')
+    except ValueError:
+        raise ValueError("Incorrect data format, should be YYYY-MM-DD")
 
 @app.get("/")
 def task_1():
@@ -73,7 +80,17 @@ def task_4(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 
 @app.get("/events/{date}")
-def task_5(date: str, db: Session = Depends(get_db)):
+def task_5(response: Response, date: str, db: Session = Depends(get_db)):
+    try:
+        datetime.datetime.strptime(date, '%Y-%m-%d')
+    except ValueError:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response.status_code
     events = crud.get_event_by_date(db, event_date=date)
-    return list(events)
+    events_list = list(events)
+    if events_list:
+        return events_list
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return response.status_code
 
