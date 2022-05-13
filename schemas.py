@@ -2,12 +2,14 @@ from pydantic import BaseModel
 
 
 class EventBase(BaseModel):
+    name: str
+    date: str
+
+
+
+class EventCreate(BaseModel):
     date: str
     event: str
-
-
-class EventCreate(EventBase):
-    pass
 
 
 class Event(EventBase):

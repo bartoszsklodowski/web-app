@@ -17,7 +17,7 @@ def create_event(db: Session, event: schemas.EventCreate):
     event_date = event.date
     event_name = event.event
     date_added = date.today().strftime("%Y-%m-%d")
-    db_event = models.Event(event=event_name, date=event_date, date_added=date_added)
+    db_event = models.Event(name=event_name, date=event_date, date_added=date_added)
     db.add(db_event)
     db.commit()
     db.refresh(db_event)

@@ -7,6 +7,6 @@ class Event(Base):
     __tablename__ = "events"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    event = Column(String, index=True)
+    name = Column(String, index=True)
     date = Column(String)
     date_added = Column(String, default=True)
