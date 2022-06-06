@@ -1,9 +1,6 @@
 from typing import Dict, Optional
 
 from pydantic import BaseModel, PositiveInt, constr
-from sqlalchemy.orm import relationship
-
-from models import Product
 
 
 class EventBase(BaseModel):
@@ -62,7 +59,7 @@ class SupplierBase(BaseModel):
 class CategoryBase(BaseModel):
 
     CategoryID: PositiveInt
-    CategoryName = constr(max_length=15)
+    CategoryName: constr(max_length=15)
 
     class Config:
         orm_mode = True
@@ -72,7 +69,7 @@ class Product(BaseModel):
 
     ProductID: PositiveInt
     ProductName: constr(max_length=40)
-    CategoryID: PositiveInt
+    Category: CategoryBase
     Discontinued: int
 
     class Config:
